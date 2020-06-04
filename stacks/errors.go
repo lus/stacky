@@ -11,4 +11,7 @@ var (
 
 	// ErrHostDoesNotExist occurs when a given host does not exist in the current stack
 	ErrHostDoesNotExist = errors.New("the given host does not exist")
+
+	// ErrAllHostsOffline occurs when all hosts of the current stack are offline
+	ErrAllHostsOffline = errors.New("all hosts of the current stack are offline")
 )
