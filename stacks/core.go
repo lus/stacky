@@ -6,6 +6,7 @@ import (
 
 	"github.com/Lukaesebrot/stacky/config"
 	"github.com/Lukaesebrot/stacky/database"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -45,6 +46,21 @@ func AddHost(host string) error {
 func RemoveHost(host string) error {
 	// TODO: Implement host removing logic
 	return nil
+}
+
+// Update writes the current local variables of the current stack into the database
+func (stack *Stack) Update() error {
+	// Define the collection to use for this database operation
+	collection := database.CurrentClient.Database(config.CurrentConfig.MongoDBDatabase).Collection("stacks")
+
+	// Define the context for the following database operation
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// Update the MongoDB document
+	filter := bson.M{"_id": stack.ID}
+	_, err := collection.UpdateOne(ctx, filter, bson.M{"$set": stack})
+	return err
 }
 
 // Delete deletes the current stack
