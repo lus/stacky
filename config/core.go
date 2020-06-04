@@ -22,7 +22,8 @@ func Load() error {
 
 	// Load the current application configuration
 	CurrentConfig = &Config{
-		MongoDBURI: os.Getenv("STACKY_MONGODB_URI"),
+		MongoDBURI:      os.Getenv("STACKY_MONGODB_URI"),
+		MongoDBDatabase: os.Getenv("STACKY_MONGODB_DATABASE"),
 	}
 	return nil
 }
