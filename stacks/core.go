@@ -6,6 +6,7 @@ import (
 
 	"github.com/Lukaesebrot/stacky/config"
 	"github.com/Lukaesebrot/stacky/database"
+	"github.com/Lukaesebrot/stacky/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -37,15 +38,24 @@ func Create(name string, hosts ...string) (*Stack, error) {
 }
 
 // AddHost adds the given host to the current stack
-func AddHost(host string) error {
-	// TODO: Implement host addition logic
-	return nil
+func (stack *Stack) AddHost(host string) error {
+	for _, hst := range stack.Hosts {
+		if hst == host {
+			return ErrHostAlreadyExists
+		}
+	}
+	stack.Hosts = append(stack.Hosts, host)
+	return stack.Update()
 }
 
 // RemoveHost removes the given host from the current stack
-func RemoveHost(host string) error {
-	// TODO: Implement host removing logic
-	return nil
+func (stack *Stack) RemoveHost(host string) error {
+	index, contains := utils.StringArrayContains(stack.Hosts, host)
+	if !contains {
+		return ErrHostDoesNotExist
+	}
+	stack.Hosts = append(stack.Hosts[:index], stack.Hosts[index+1:]...)
+	return stack.Update()
 }
 
 // Update writes the current local variables of the current stack into the database
