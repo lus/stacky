@@ -31,7 +31,7 @@ You can use the following endpoints:
 
 ## Responses
 Responses will have the following structure:
-```json
+```
 {
     "code": 200, // The status code
     "type": "success", // Either 'success' or 'error'
