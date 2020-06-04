@@ -2,6 +2,8 @@ package config
 
 import (
 	"os"
+	"strconv"
+	"strings"
 
 	"github.com/Lukaesebrot/stacky/static"
 	"github.com/joho/godotenv"
@@ -20,10 +22,23 @@ func Load() error {
 		}
 	}
 
+	// Read the auth keys
+	authKeysRaw := strings.Split(os.Getenv("STACKY_AUTH_KEYS"), ",")
+	authKeys := make(map[string]int, len(authKeysRaw))
+	for _, authKeyRaw := range authKeysRaw {
+		split := strings.Split(authKeyRaw, ":")
+		i, err := strconv.Atoi(strings.Join(split[1:], ""))
+		if err != nil {
+			return err
+		}
+		authKeys[split[0]] = i
+	}
+
 	// Load the current application configuration
 	CurrentConfig = &Config{
 		MongoDBURI:      os.Getenv("STACKY_MONGODB_URI"),
 		MongoDBDatabase: os.Getenv("STACKY_MONGODB_DATABASE"),
+		AuthKeys:        authKeys,
 	}
 	return nil
 }

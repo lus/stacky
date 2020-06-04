@@ -4,4 +4,5 @@ package config
 type Config struct {
 	MongoDBURI      string
 	MongoDBDatabase string
+	AuthKeys        map[string]int
 }
