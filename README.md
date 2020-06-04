@@ -6,7 +6,7 @@ You have to define 3 environment variables to configure your Stacky instance:
 1. The `STACKY_MONGODB_URI` variable defines the MongoDB connection string
 2. The `STACKY_MONGODB_DATABASE` variable defines the MongoDB database name
 3. The `STACKY_AUTH_KEYS` variable defines a set of API tokens with the following structure: `KEY:LEVEL,KEY2:LEVEL` (ex. `abc:2,readOnly:1`)
-There are two levels: `1` (read-only) and `2` (read-and-write)
+* There are two levels: `1` (read-only) and `2` (read-and-write)
 
 ## Structure
 Stacky helps you to choose between different API hosts, depending on their latency.
