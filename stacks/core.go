@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"go.mongodb.org/mongo-driver/mongo"
+
 	"github.com/Lukaesebrot/stacky/config"
 	"github.com/Lukaesebrot/stacky/database"
 	"github.com/Lukaesebrot/stacky/utils"
@@ -11,8 +13,42 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+// Retrieve retrieves the stack with the given name
+func Retrieve(name string) (*Stack, error) {
+	// Define the collection to use for this database operation
+	collection := database.CurrentClient.Database(config.CurrentConfig.MongoDBDatabase).Collection("stacks")
+
+	// Define the context for the following database operation
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// Retrieve the stack with the given name
+	filter := bson.M{"name": name}
+	result := collection.FindOne(ctx, filter)
+	err := result.Err()
+	if err != nil {
+		return nil, err
+	}
+
+	// Decode the document into a stack structure
+	stack := new(Stack)
+	err = result.Decode(stack)
+	return stack, err
+}
+
 // Create creates a new stack
 func Create(name string, hosts ...string) (*Stack, error) {
+	// Validate the stack name
+	stack, err := Retrieve(name)
+	if err != nil {
+		if err != mongo.ErrNoDocuments {
+			return nil, err
+		}
+	}
+	if stack != nil {
+		return nil, ErrStackAlreadyExists
+	}
+
 	// Define the collection to use for this database operation
 	collection := database.CurrentClient.Database(config.CurrentConfig.MongoDBDatabase).Collection("stacks")
 
@@ -21,7 +57,7 @@ func Create(name string, hosts ...string) (*Stack, error) {
 	defer cancel()
 
 	// Create the stack structure
-	stack := &Stack{
+	stack = &Stack{
 		Name:  name,
 		Hosts: hosts,
 	}
