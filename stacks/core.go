@@ -75,6 +75,15 @@ func (stack *Stack) Update() error {
 
 // Delete deletes the current stack
 func (stack *Stack) Delete() error {
-	// TODO: Implement stack deletion logic
-	return nil
+	// Define the collection to use for this database operation
+	collection := database.CurrentClient.Database(config.CurrentConfig.MongoDBDatabase).Collection("stacks")
+
+	// Define the context for the following database operation
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// Delete the document
+	filter := bson.M{"_id": stack.ID}
+	_, err := collection.DeleteOne(ctx, filter)
+	return err
 }
