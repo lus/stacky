@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/Lukaesebrot/stacky/api"
 	"github.com/Lukaesebrot/stacky/config"
 	"github.com/Lukaesebrot/stacky/database"
 )
@@ -21,4 +22,8 @@ func main() {
 	if err != nil {
 		log.Panicln(err)
 	}
+
+	// Serve the REST API
+	log.Println("Serving the REST API...")
+	api.Serve()
 }
