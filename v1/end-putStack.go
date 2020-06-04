@@ -10,8 +10,8 @@ import (
 // endPutStack handles the PUT '/stacks' endpoint
 func endPutStack(ctx *fasthttp.RequestCtx) {
 	// Validate the inputs
-	name := string(ctx.PostArgs().Peek("name"))
-	hosts := strings.Split(string(ctx.PostArgs().Peek("host")), ",")
+	name := string(ctx.QueryArgs().Peek("name"))
+	hosts := strings.Split(string(ctx.QueryArgs().Peek("host")), ",")
 	if name == "" {
 		ctx.SetStatusCode(fasthttp.StatusBadRequest)
 		ctx.SetBody(errorResponse(fasthttp.StatusBadRequest, "you have to specify a stack name", nil))

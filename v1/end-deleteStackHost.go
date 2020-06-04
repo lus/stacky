@@ -6,7 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-// endDeleteStackHost handles the DELETE '/stacks/{name}/hosts/{host}' endpoint
+// endDeleteStackHost handles the DELETE '/stacks/{name}/hosts' endpoint
 func endDeleteStackHost(ctx *fasthttp.RequestCtx) {
 	// Retrieve the stack
 	stack, err := stacks.Retrieve(ctx.UserValue("name").(string))
@@ -22,7 +22,7 @@ func endDeleteStackHost(ctx *fasthttp.RequestCtx) {
 	}
 
 	// Remove the given host from the current stack
-	host := ctx.UserValue("host").(string)
+	host := string(ctx.QueryArgs().Peek("host"))
 	if host == "" {
 		ctx.SetStatusCode(fasthttp.StatusBadRequest)
 		ctx.SetBody(errorResponse(fasthttp.StatusBadRequest, "no empty fields allowed", nil))

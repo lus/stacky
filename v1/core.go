@@ -11,5 +11,5 @@ func Initialize(router *routing.Router) {
 	router.GET("/stacks/{name}/hosts/best", authenticated(endGetStackBestHost, 1))
 	router.GET("/stacks/{name}/hosts", authenticated(endGetStackHosts, 1))
 	router.PUT("/stacks/{name}/hosts", authenticated(endPutStackHost, 2))
-	router.DELETE("/stacks/{name}/hosts/{host}", authenticated(endDeleteStackHost, 2))
+	router.DELETE("/stacks/{name}/hosts", authenticated(endDeleteStackHost, 2))
 }

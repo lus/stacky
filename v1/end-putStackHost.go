@@ -22,7 +22,7 @@ func endPutStackHost(ctx *fasthttp.RequestCtx) {
 	}
 
 	// Add the given host to the current stack
-	host := string(ctx.PostArgs().Peek("host"))
+	host := string(ctx.QueryArgs().Peek("host"))
 	if host == "" {
 		ctx.SetStatusCode(fasthttp.StatusBadRequest)
 		ctx.SetBody(errorResponse(fasthttp.StatusBadRequest, "no empty fields allowed", nil))
