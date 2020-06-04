@@ -3,9 +3,9 @@ A hosted service to dynamically choose between multiple API instances
 
 ## Configuration
 You have to define 3 environment variables to configure your Stacky instance:
-    1. The `STACKY_MONGODB_URI` variable defines the MongoDB connection string
-    2. The `STACKY_MONGODB_DATABASE` variable defines the MongoDB database name
-    3. The `STACKY_AUTH_KEYS` variable defines a set of API tokens with the following structure: `KEY:LEVEL,KEY2:LEVEL` (ex. `abc:2,readOnly:1`)
+1. The `STACKY_MONGODB_URI` variable defines the MongoDB connection string
+2. The `STACKY_MONGODB_DATABASE` variable defines the MongoDB database name
+3. The `STACKY_AUTH_KEYS` variable defines a set of API tokens with the following structure: `KEY:LEVEL,KEY2:LEVEL` (ex. `abc:2,readOnly:1`)
 There are two levels: `1` (read-only) and `2` (read-and-write)
 
 ## Structure
@@ -21,13 +21,13 @@ We can then make a request to the Stacky API and it will return the host with th
 
 ## Endpoints
 You can use the following endpoints:
-    1. **GET** `/api/v1/stacks/{name}?token=TOKEN`
-    2. **PUT** `/api/v1/stacks?token=TOKEN&name=stackName&hosts=optional,default,hosts`
-    3. **DELETE** `/api/v1/stacks/{name}?token=TOKEN`
-    4. **GET** `/api/v1/stacks/{name}/hosts/best?token=TOKEN`
-    5. **GET** `/api/v1/stacks/{name}/hosts?token=TOKEN`
-    6. **PUT** `/api/v1/stacks/{name}/hosts?token=TOKEN&host=myHost`
-    7. **DELETE** `/api/v1/stacks/{name}/host?token=TOKEB&host=myHost`
+1. **GET** `/api/v1/stacks/{name}?token=TOKEN`
+2. **PUT** `/api/v1/stacks?token=TOKEN&name=stackName&hosts=optional,default,hosts`
+3. **DELETE** `/api/v1/stacks/{name}?token=TOKEN`
+4. **GET** `/api/v1/stacks/{name}/hosts/best?token=TOKEN`
+5. **GET** `/api/v1/stacks/{name}/hosts?token=TOKEN`
+6. **PUT** `/api/v1/stacks/{name}/hosts?token=TOKEN&host=myHost`
+7. **DELETE** `/api/v1/stacks/{name}/host?token=TOKEB&host=myHost`
 
 ## Responses
 Responses will have the following structure:
